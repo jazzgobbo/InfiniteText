@@ -20,3 +20,19 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.infinite-text {
+  width: 100%;
+  height: 100%;
+}
+
+.h1 {
+  font-family: 'Montserrat';
+  font-style: bold;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 5px;
+  letter-spacing: 0.2px;
+  
+  z-index: 100px;
+}

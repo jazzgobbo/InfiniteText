@@ -1,0 +1,15 @@
+.infinite-text {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 5px;
+    letter-spacing: 0.2px;
+    color: Black;
+    z-index: 100px;
+}
+
+input [type=text]
+{
+    border:none;
+}
