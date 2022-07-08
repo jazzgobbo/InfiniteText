@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
 
-const InfiniteText = () => {
-    const [name, setText] = useState("");
-
-    const handleChange = (e) => {
-      setText(e.target.value);
-    }
-      
-
+const InfiniteText =(props) => {
     return (
-        <div className="infinite-text">
-            <form>
-                <input type="text" value={name} onChange={handleChange} />
-            </form>
+        <div> 
+            <p onClick={ props.name }>I'm {props.clickParagraph} and I am a {props.profession} !</p>
+            <p>{props.children}</p>
+            <input type="text" onChange = {props.professionChanged} value={props.profession}/>
         </div>
-    );
-    
-}
-
-export default InfiniteText;
+    )
+};

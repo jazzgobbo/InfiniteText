@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
-import InfiniteText from './Text.js'
+import React, { Component} from 'react';
 import './App.css';
 
-const App = () => {
-  const [text, setText] = useState("");
+class App extends Component {
+  state = {
+    userInput: ''
+  }
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setText(e.target[0].value);
-  };
+  inputChangedHandler = (event) => {
+    this.setState({userInput : event.target.value});
+  }
 
-  
-  
-
-  return (
-    <div className="App">
-
-      <div className="infinite-text">
-          <form>
-              <input type="text" onChange={handleChange} />
-          </form>
-      </div>
-      <h1>{text}</h1>
-
-    </div>
-  );
+  render() {
+    return (
+      <div className="App">
+        <input type="text" onChange={this.inputChangedHandler} hidden="true"
+        value={this.state.userInput}/>
+        <p>{this.state.userInput}</p>
+     </div>
+    );
+  }
 }
-
 export default App;
