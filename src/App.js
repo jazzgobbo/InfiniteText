@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import './App.css';
+import './App.css'
 
 class App extends Component {
   state = {
@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <input type="text" onChange={this.inputChangedHandler} hidden="true"
+        <input type="text" onChange={this.inputChangedHandler}
         value={this.state.userInput}/>
         <p>{this.state.userInput}</p>
      </div>
