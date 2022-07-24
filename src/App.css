@@ -29,9 +29,19 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.1px;
   color: black;
+  text-align: center;
   z-index: 100px;
+  width: 800px; 
+  margin-left: auto;  
+  margin-right: auto; 
 }
 
 input {
   opacity: 0;
 }
+
+.texty {
+  width: 750px; 
+  margin-left: auto;  
+  margin-right: auto;  
+  text-align: center; }

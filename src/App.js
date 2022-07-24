@@ -15,7 +15,9 @@ class App extends Component {
       <div className="App">
         <input type="text" onChange={this.inputChangedHandler}
         value={this.state.userInput}/>
-        <p>{this.state.userInput}</p>
+        <div className="texty">
+          <p>{this.state.userInput}</p>
+        </div>
      </div>
     );
   }
