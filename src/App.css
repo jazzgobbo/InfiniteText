@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  display: flex;
 }
 
 
@@ -36,8 +37,10 @@ p {
   margin-right: auto; 
 }
 
-input {
-  opacity: 0;
+
+textarea {
+  min-height: 200px;
+  max-width: 100%;
 }
 
 .texty {
