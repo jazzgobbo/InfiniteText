@@ -73,5 +73,5 @@ export const isValidUser = (user) => {
 }
 
 onAuthStateChanged(auth, user => {
-  // Check for user status
+
 });

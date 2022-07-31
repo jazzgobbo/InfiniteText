@@ -1,32 +1,15 @@
-import { FirebaseError } from 'firebase/app';
-import { ref, get} from 'firebase/database';
+import { ref, get } from 'firebase/database';
 import React, { useEffect, useState} from 'react';
 import './App.css'
-import { auth, setData, database, signInWithGoogle, signOut } from './utilities/firebase.js';
+import { auth, setData, database, useUserState } from './utilities/firebase.js';
+import {SignInButton, SignOutButton} from './Authentication.js'
 
 
 const App = () => {
 
   // Store input value in react state
   const [value, setValue] = useState("");
-
   
-
-  //produces pop up for google authentication 
-  const SignInButton = () => (
-    <button className="btn btn-secondary btn-sm"
-        onClick={() => signInWithGoogle()}>
-      Sign In
-    </button>
-  );
-
-  const SignOutButton = () => (
-    <button className="btn btn-secondary btn-sm"
-        onClick={() => signOut()}>
-      Sign Out
-    </button>
-  );
-
   // When input in textarea changes, store to react state 
   const inputChangedHandler = (e) => {
     setValue(e.target.value);
@@ -48,7 +31,9 @@ const App = () => {
       setValue(snapshot.val())
     })
   }, []);
-   
+
+  // Store user state in user state
+  const [state, setState] = useUserState();
 
   var user = auth.currentUser
   if (user != null) {
