@@ -1,14 +1,33 @@
 import { FirebaseError } from 'firebase/app';
-import { ref, get } from 'firebase/database';
+import { ref, get} from 'firebase/database';
 import React, { useEffect, useState} from 'react';
 import './App.css'
-import { setData, database } from './utilities/firebase.js';
+import { isValidUser, auth, setData, database, firebase, useUserState, signInWithGoogle, signOut } from './utilities/firebase.js';
 
 
-const App = (props) => {
+const App = () => {
 
   // Store input value in react state
   const [value, setValue] = useState("");
+
+  
+
+  //produces pop up fro google authentication 
+const SignInButton = () => (
+  <button className="btn btn-secondary btn-sm"
+      onClick={() => signInWithGoogle()}>
+    Sign In
+  </button>
+);
+
+const SignOutButton = () => (
+  <button className="btn btn-secondary btn-sm"
+      onClick={() => signOut()}>
+    Sign Out
+  </button>
+);
+
+
 
   // When input in textarea changes, store to react state 
   const inputChangedHandler = (e) => {
@@ -33,16 +52,66 @@ const App = (props) => {
   }, []);
    
 
-  return (
+  var user = auth.currentUser
+  if (user != null) {
+
+    if (user.uid === "6unh3FClWIck3JbaXe9HLt2sGwV2" || user.uid === "MChHPOb5NZhSSIckdT4l65EG22C3") {
+      return (
+        <div className="App">
+          { user ? <SignOutButton /> : <SignInButton /> }
+          <div className="input">
+            <textarea 
+              id="text"
+              name="text" 
+              value={value}
+              onChange={inputChangedHandler}
+              hidden={false}>
+            </textarea>
+            <button id="save" onClick={Push}>Save</button>
+          </div>
+          <div className="texty">
+            <p>{value}</p>
+          </div>
+
+        </div>
+      ); } else {
+        return (
+          <div className="App">
+            { user ? <SignOutButton /> : <SignInButton /> }
+            <div className="input">
+              <textarea 
+                id="text"
+                name="text" 
+                value={value}
+                onChange={inputChangedHandler}
+                hidden={true}>
+              </textarea>
+              <button 
+              id="save" 
+              onClick={Push}
+              hidden={true}>Save</button>
+            </div>
+            <div className="texty">
+              <p>{value}</p>
+            </div>
+
+          </div>
+        );}
+  } else {
+    return (
       <div className="App">
+        { user ? <SignOutButton /> : <SignInButton /> }
         <div className="input">
           <textarea 
             id="text"
             name="text" 
             value={value}
-            onChange={inputChangedHandler}>
+            onChange={inputChangedHandler}
+            hidden={true}>
           </textarea>
-          <button id="save" onClick={Push}>Save</button>
+          <button id="save" 
+          onClick={Push}
+          hidden={true}>Save</button>
         </div>
         <div className="texty">
           <p>{value}</p>
@@ -50,6 +119,10 @@ const App = (props) => {
 
       </div>
     );
+
+  }
+  
+
 };
 
 export default App;

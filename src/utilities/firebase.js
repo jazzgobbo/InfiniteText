@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set} from 'firebase/database';
 import React, { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut, getAdditionalUserInfo } from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCdqUtp-IMG0RltQdHb5ho6Mw5dygDrxjQ",
@@ -40,3 +41,37 @@ export const setData = (path, value) => (
     set(ref(database, path), value)
   );
 
+//allows google authentication
+export const signInWithGoogle = () => {
+  signInWithPopup(getAuth(firebase), new GoogleAuthProvider());
+};
+
+const firebaseSignOut = () => signOut(getAuth(firebase));
+
+export { firebaseSignOut as signOut };
+
+//simple hook to list for changes in user state
+export const useUserState = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    onIdTokenChanged(getAuth(firebase), setUser);
+  }, []);
+
+  return [user];
+};
+
+export const auth = getAuth(firebase); 
+
+
+export const isValidUser = (user) => {
+  if (user.uid === "6unh3FClWIck3JbaXe9HLt2sGwV2" || user.uid === "MChHPOb5NZhSSIckdT4l65EG22C3") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+onAuthStateChanged(auth, user => {
+  // Check for user status
+});
