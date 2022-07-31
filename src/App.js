@@ -2,7 +2,7 @@ import { FirebaseError } from 'firebase/app';
 import { ref, get} from 'firebase/database';
 import React, { useEffect, useState} from 'react';
 import './App.css'
-import { isValidUser, auth, setData, database, firebase, useUserState, signInWithGoogle, signOut } from './utilities/firebase.js';
+import { auth, setData, database, signInWithGoogle, signOut } from './utilities/firebase.js';
 
 
 const App = () => {
@@ -12,22 +12,20 @@ const App = () => {
 
   
 
-  //produces pop up fro google authentication 
-const SignInButton = () => (
-  <button className="btn btn-secondary btn-sm"
-      onClick={() => signInWithGoogle()}>
-    Sign In
-  </button>
-);
+  //produces pop up for google authentication 
+  const SignInButton = () => (
+    <button className="btn btn-secondary btn-sm"
+        onClick={() => signInWithGoogle()}>
+      Sign In
+    </button>
+  );
 
-const SignOutButton = () => (
-  <button className="btn btn-secondary btn-sm"
-      onClick={() => signOut()}>
-    Sign Out
-  </button>
-);
-
-
+  const SignOutButton = () => (
+    <button className="btn btn-secondary btn-sm"
+        onClick={() => signOut()}>
+      Sign Out
+    </button>
+  );
 
   // When input in textarea changes, store to react state 
   const inputChangedHandler = (e) => {
@@ -58,7 +56,11 @@ const SignOutButton = () => (
     if (user.uid === "6unh3FClWIck3JbaXe9HLt2sGwV2" || user.uid === "MChHPOb5NZhSSIckdT4l65EG22C3") {
       return (
         <div className="App">
+          <div className="editor">
+          <div className="buttons">
           { user ? <SignOutButton /> : <SignInButton /> }
+          <button id="save" onClick={Push}>Save</button>
+          </div>
           <div className="input">
             <textarea 
               id="text"
@@ -67,7 +69,7 @@ const SignOutButton = () => (
               onChange={inputChangedHandler}
               hidden={false}>
             </textarea>
-            <button id="save" onClick={Push}>Save</button>
+          </div>
           </div>
           <div className="texty">
             <p>{value}</p>
@@ -77,7 +79,9 @@ const SignOutButton = () => (
       ); } else {
         return (
           <div className="App">
-            { user ? <SignOutButton /> : <SignInButton /> }
+            <div className="viewer">
+              { user ? <SignOutButton /> : <SignInButton /> }
+            </div>
             <div className="input">
               <textarea 
                 id="text"
@@ -86,10 +90,6 @@ const SignOutButton = () => (
                 onChange={inputChangedHandler}
                 hidden={true}>
               </textarea>
-              <button 
-              id="save" 
-              onClick={Push}
-              hidden={true}>Save</button>
             </div>
             <div className="texty">
               <p>{value}</p>
@@ -100,7 +100,9 @@ const SignOutButton = () => (
   } else {
     return (
       <div className="App">
-        { user ? <SignOutButton /> : <SignInButton /> }
+        <div className="viewer">
+            { user ? <SignOutButton /> : <SignInButton /> }
+        </div>
         <div className="input">
           <textarea 
             id="text"
@@ -109,9 +111,6 @@ const SignOutButton = () => (
             onChange={inputChangedHandler}
             hidden={true}>
           </textarea>
-          <button id="save" 
-          onClick={Push}
-          hidden={true}>Save</button>
         </div>
         <div className="texty">
           <p>{value}</p>

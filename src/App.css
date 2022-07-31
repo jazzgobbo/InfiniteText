@@ -47,6 +47,32 @@ textarea {
   width: 750px; 
   margin-left: auto;  
   margin-right: auto;  
-  text-align: center; }
+  text-align: center; 
+}
+
+button {
+  opacity: 0.5;
+  background-color: white;
+  border-style: hidden;
+  cursor: pointer;
+
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 2%;
+}
+
+.editor {
+  flex-direction: column;
+}
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 
 
