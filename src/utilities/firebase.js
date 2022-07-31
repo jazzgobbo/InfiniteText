@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, onValue, ref, set } from 'firebase/database';
-import React, { Component, useEffect, useState} from 'react';
+import { getDatabase, ref, set} from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCdqUtp-IMG0RltQdHb5ho6Mw5dygDrxjQ",
@@ -13,29 +13,30 @@ const firebaseConfig = {
     measurementId: "G-EE227G9CG6"
   };
 
-const firebase = initializeApp(firebaseConfig);
+export const firebase = initializeApp(firebaseConfig);
 export const database = getDatabase(firebase);
 
-export const useData = (path, transform) => {
-    const [data, setData] = useState();
+//export const useData = (path, transform) => {
+//    const [data, setData] = useState();
 
-    useEffect(() => {
-        const dbRef = ref(database, path);
-        const devMode = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
-        if (devMode) { console.log(`loading ${path}`); }
-        return onValue(dbRef, (snapshot) => {
-          const val = snapshot.val();
-          if (devMode) { console.log(val); }
-          setData(transform ? transform(val) : val);
-        }, (error) => {
-          setData(null);
-        });
-      }, [path, transform]);
+//    useEffect(() => {
+//        const dbRef = ref(database, path);
+//        const devMode = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+//        if (devMode) { console.log(`loading ${path}`); }
+//        return onValue(dbRef, (snapshot) => {
+//          const val = snapshot.val();
+//          if (devMode) { console.log(val); }
+//          setData(transform ? transform(val) : val);
+//        }, (error) => {
+//          setData(null);
+//        });
+//      }, [path, transform]);
     
-      return [data];
-};
+//      return [data];
+//};
 
 
 export const setData = (path, value) => (
     set(ref(database, path), value)
   );
+

@@ -1,49 +1,37 @@
 import { FirebaseError } from 'firebase/app';
-import { ref } from 'firebase/database';
-import React, { Component, useEffect, useState} from 'react';
+import { ref, get } from 'firebase/database';
+import React, { useEffect, useState} from 'react';
 import './App.css'
-import { useData, setData, database } from './utilities/firebase.js';
+import { setData, database } from './utilities/firebase.js';
 
 
-const App = () => {
+const App = (props) => {
 
-  // store input value in react state
+  // Store input value in react state
   const [value, setValue] = useState("");
 
-  
+  // When input in textarea changes, store to react state 
+  const inputChangedHandler = (e) => {
+    setValue(e.target.value);
+  };
 
   // Push Function pushes value in textarea into database
+  // This is triggered by clicking the save button
   const Push = () => {
     setData(`/input`, {
       text : value,
     }).catch(alert);
   }
 
-
-  // when input changes, store to react state 
-  // and local storage
-  const inputChangedHandler = (e) => {
-    setValue(e.target.value);
-    localStorage.setItem("inputValue", e.target.value);
-  };
-
-  // when component is mounted, set initial state
-  // of input to value in local storage
+  // When component is mounted, get a snapshot of the
+  // current database and setValue to that snapshot 
   useEffect(() => {
-    setValue(localStorage.getItem("inputValue"));
-  }, []);
-
-
-  window.addEventListener('load', () => {
-    Fetch();
-  });
-
-  const Fetch = () => {
-    var inputRef = database.ref('input');
-    inputRef.on('value').then((snapshot) => {
-      const data = snapshot.val()
+    const dbRef = ref(database, "/input/text");
+    get(dbRef).then(snapshot => {
+      setValue(snapshot.val())
     })
-  }
+  }, []);
+   
 
   return (
       <div className="App">
