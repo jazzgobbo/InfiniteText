@@ -1,4 +1,4 @@
-import { ref, get } from 'firebase/database';
+import { ref, get, onValue } from 'firebase/database';
 import React, { useEffect, useState} from 'react';
 import './App.css'
 import { auth, setData, database, useUserState } from './utilities/firebase.js';
@@ -10,26 +10,34 @@ const App = () => {
   // Store input value in react state
   const [value, setValue] = useState("");
   
-  // When input in textarea changes, store to react state 
-  const inputChangedHandler = (e) => {
-    setValue(e.target.value);
+  // Push Function pushes value in textarea into database
+  // This is triggered every time user types something
+  const Push = (e) => {
+    setData(`/input`, {
+      text : e,
+    }).catch(alert);
   };
 
-  // Push Function pushes value in textarea into database
-  // This is triggered by clicking the save button
-  const Push = () => {
-    setData(`/input`, {
-      text : value,
-    }).catch(alert);
-  }
-
-  // When component is mounted, get a snapshot of the
-  // current database and setValue to that snapshot 
-  useEffect(() => {
+  // Gets a snapshot of the current
+  // database and setValue to that snapshot 
+  const updateText = () => {
     const dbRef = ref(database, "/input/text");
     get(dbRef).then(snapshot => {
-      setValue(snapshot.val())
+      setValue(snapshot.val());
     })
+  }
+  
+  // When input in textarea changes, store to react state
+  // Push to database, and updateText 
+  const inputChangedHandler = (e) => {
+    setValue(e.target.value);
+    Push(e.target.value);
+    updateText();
+  };
+
+  // When component is mounted, updateText
+  useEffect(() => {
+    updateText();
   }, []);
 
   // Store user state in user state
@@ -42,20 +50,19 @@ const App = () => {
       return (
         <div className="App">
           <div className="editor">
-          <div className="buttons">
+          
           { user ? <SignOutButton /> : <SignInButton /> }
-          <button id="save" onClick={Push}>Save</button>
-          </div>
+          
           <div className="input">
             <textarea 
               id="text"
               name="text" 
               value={value}
-              onChange={inputChangedHandler}
-              hidden={false}>
+              onChange={inputChangedHandler}>
             </textarea>
           </div>
           </div>
+          
           <div className="texty">
             <p>{value}</p>
           </div>
@@ -69,7 +76,7 @@ const App = () => {
             </div>
             <div className="input">
               <textarea 
-                id="text"
+                id="invalid"
                 name="text" 
                 value={value}
                 onChange={inputChangedHandler}
@@ -90,7 +97,7 @@ const App = () => {
         </div>
         <div className="input">
           <textarea 
-            id="text"
+            id="invalid"
             name="text" 
             value={value}
             onChange={inputChangedHandler}
@@ -103,7 +110,6 @@ const App = () => {
 
       </div>
     );
-
   }
   
 
